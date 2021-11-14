@@ -1,7 +1,6 @@
 #!/bin/bash
 
 sudo apt-get update
-sudo apt install -y php-cli uzip
 cd ~
 curl -sS https://getcomposer.org/installer -o composer-setup.php
 HASH=`curl -sS https://composer.github.io/installer.sig`
