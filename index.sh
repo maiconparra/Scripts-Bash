@@ -14,47 +14,34 @@ $0 [arguments] [options]
 
     Version of the PHP, exemples:
 
-    $0 7.4 --install-php [version of the release]
+    $(basename "$0") --install-php [version of the release]
     
-    $0 7.4 --uninstall-php [version of the release]
+    $(basename "$0") --uninstall-php [version of the release]
 
 [options]
     
 "
 
-if test "$1" = "-h"
+case "$1" in 
+    "--help" | "-h")
+        echo "$MENSAGEM_AJUDA"
+        exit 0
+    ;;
+    "--install-php")
+        ./PHP/Install\ PHP/installphp74.sh $2 --install
 
-then 
+        ./Composer/installer-composer.sh
+    ;;
+    "--uninstall-php")
+        ./PHP/Install\ PHP/installphp74.sh $2 --purge
 
-    echo "$MENSAGEM_AJUDA"
-    exit 0
-
-fi
-
-if test "$1" = "--help"
-
-then 
-
-    echo "$MENSAGEM_AJUDA"
-    exit 0
-
-fi
-
-if test "$1" = "--install-php"
-
-then
-
-    ./PHP/Install\ PHP/installphp74.sh $2 --install
-
-    ./Composer/installer-composer.sh
-
-fi
-
-if test "$1" = "--uninstall-php"
-
-then 
-
-    ./PHP/Install\ PHP/installphp74.sh $2 --purge
-
-    sudo apt purge --auto-remove composer
-fi
+        sudo apt purge --auto-remove composer
+    ;;
+    *)
+        if test -n "$1"
+        then
+            echo $(basename "$0")
+            echo "Opção $1 invallida."
+        fi
+    ;;
+esac
