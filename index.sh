@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#Próximos passos: 
+#Listar as versões do PHP que estão instaladas.
+#Iniciar um projeto default com auto load e possíbilidade de criar e delclarar rotas.
+
 #Mensagem de Ajuda
 MENSAGEM_AJUDA="
 $0 [arguments] [options]
@@ -26,6 +30,8 @@ $0 [arguments] [options]
 
 PHP_LATEST=$(sudo apt-cache policy php | grep "Candidate: [0-9]:[0-9][.][0-9]" | tr : \\t | grep -oE '[0-9]\.[0-9]' | head -n 1)
 
+COMPOSER_INTALL=$(composer -V | grep -oE "Composer version")
+
 case "$1" in 
     "--help" | "-h")
         echo "$MENSAGEM_AJUDA"
@@ -38,13 +44,23 @@ case "$1" in
 
             ./PHP/Install\ PHP/installphp74.sh $2 --install
 
-            ./Composer/installer-composer.sh
+            if test $COMPOSER_INTALL != "Composer version"
+            then
+
+                ./Composer/installer-composer.sh
+
+            fi
 
         else 
 
             ./PHP/Install\ PHP/installphp74.sh $PHP_LATEST --install
 
-            ./Composer/installer-composer.sh
+            if test $COMPOSER_INTALL != "Composer version"
+            then
+
+                ./Composer/installer-composer.sh
+
+            fi
 
         fi
     ;;
@@ -55,13 +71,23 @@ case "$1" in
 
             ./PHP/Install\ PHP/installphp74.sh $2 --purge
 
-            sudo apt purge --auto-remove composer
+            if test $COMPOSER_INTALL = "Composer version"
+            then
+
+                sudo apt purge --auto-remove composer
+
+            fi
 
         else
 
             ./PHP/Install\ PHP/installphp74.sh $PHP_LATEST --purge
 
-            sudo apt purge --auto-remove composer
+            if test $COMPOSER_INTALL = "Composer version"
+            then
+
+                sudo apt purge --auto-remove composer
+
+            fi
 
         fi
     ;;
