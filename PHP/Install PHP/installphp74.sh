@@ -6,6 +6,9 @@
 #Onde o mesmo testa se existe o PPA e o adicina instalando ou desinstalando o PHP na versão desejada.
 #
 
+sudo apt update
+
+sudo apt upgrade -y
 
 #Verificando se o PPA do PHP existe se existir continua se não existir adiciona e continua.
 the_ppa="ondrej/php"
@@ -18,8 +21,6 @@ if ! grep -q "^deb .*$the_ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*; 
 else
     echo "PPA found"
 fi
-
-sudo apt update
 
 
 if test "$2" = "-I"

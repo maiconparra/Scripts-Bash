@@ -1,101 +1,47 @@
 #!/bin/bash
 
-#Próximos passos: 
-#Listar as versões do PHP que estão instaladas.
-#Iniciar um projeto default com auto load e possíbilidade de criar e delclarar rotas.
 
-#Mensagem de Ajuda
-MENSAGEM_AJUDA="
-$0 [arguments] [options]
+# index.sh - Interface principal para instalação e remoção de PHP/Composer
+# Uso:
+#   ./index.sh --install-php [versao]
+#   ./index.sh --uninstall-php [versao]
+#   ./index.sh --help
 
-
-[arguments]
-    -h show help informations .
-    --help show help informations .
-
-    --uninstall-php uninstall PHP .
-    --install-php install PHP .
-
-    Version of the PHP, exemples:
-
-    $(basename "$0") --install-php [version of the release]
-    
-    $(basename "$0") --uninstall-php [version of the release]
-
-    $(basename "$0") --uninstall-php ou --install-php sem indicar o versão irá instalar ou desinstalar a versão LTS mais recente.
-
-[options]
-    
+MENSAGEM_AJUDA="\
+Uso: $(basename "$0") [argumento] [versao]\n\n\
+[argumentos]\n\
+    -h, --help           Exibe esta mensagem de ajuda\n\
+    --install-php        Instala PHP e Composer (versão opcional)\n\
+    --uninstall-php      Remove PHP e Composer (versão opcional)\n\
+\nExemplos:\n\
+    $(basename "$0") --install-php 8.2\n\
+    $(basename "$0") --uninstall-php 8.2\n\
+    $(basename "$0") --install-php\n\
+    $(basename "$0") --uninstall-php\n\
+Se não indicar a versão, será usada a recomendada para seu Ubuntu.\n\
 "
 
-PHP_LATEST=$(sudo apt-cache policy php | grep "Candidate: [0-9]:[0-9][.][0-9]" | tr : \\t | grep -oE '[0-9]\.[0-9]' | head -n 1)
-
-COMPOSER_INTALL=$(composer -V | grep -oE "Composer version")
-
-case "$1" in 
-    "--help" | "-h")
+case "$1" in
+    "--help"|"-h"|"")
         echo "$MENSAGEM_AJUDA"
         exit 0
     ;;
     "--install-php")
-
-        if test -n "$2"
-        then
-
-            ./PHP/Install\ PHP/installphp74.sh $2 --install
-
-            if test $COMPOSER_INTALL != "Composer version"
-            then
-
-                ./Composer/installer-composer.sh
-
-            fi
-
-        else 
-
-            ./PHP/Install\ PHP/installphp74.sh $PHP_LATEST --install
-
-            if test $COMPOSER_INTALL != "Composer version"
-            then
-
-                ./Composer/installer-composer.sh
-
-            fi
-
-        fi
-    ;;
-    "--uninstall-php")
-
-        if test -n "$2"
-        then
-
-            ./PHP/Install\ PHP/installphp74.sh $2 --purge
-
-            if test $COMPOSER_INTALL = "Composer version"
-            then
-
-                sudo apt purge --auto-remove composer
-
-            fi
-
+        if [ -n "$2" ]; then
+            bash ./install_env.sh "$2"
         else
-
-            ./PHP/Install\ PHP/installphp74.sh $PHP_LATEST --purge
-
-            if test $COMPOSER_INTALL = "Composer version"
-            then
-
-                sudo apt purge --auto-remove composer
-
-            fi
-
+            bash ./install_env.sh
         fi
-    ;;
+        ;;
+    "--uninstall-php")
+        if [ -n "$2" ]; then
+            bash ./remove_env.sh "$2"
+        else
+            bash ./remove_env.sh
+        fi
+        ;;
     *)
-        if test -n "$1"
-        then
-            echo $(basename "$0")
-            echo "Opção $1 invallida."
-        fi
-    ;;
+        echo "Opção '$1' inválida. Use --help para ver as opções disponíveis."
+        exit 1
+        ;;
 esac
