@@ -1,0 +1,62 @@
+#!/bin/bash
+# bin/wifipirata - Comando global para gerenciamento do ambiente
+
+PROJECT_ROOT="/usr/lib/wifipirata"
+MODULES="$PROJECT_ROOT/modules"
+UTILS="$PROJECT_ROOT/utils"
+
+show_help() {
+  cat <<EOF
+Uso: wifipirata <comando> [opções]
+
+Comandos principais:
+  list --php-versions         Lista todas as versões do PHP instaladas
+  menu                        Abre o menu interativo de instalação/remover
+  install <app> [versao]      Instala uma aplicação (ex: php, docker, etc)
+  remove <app> [versao]       Remove uma aplicação (ex: php, docker, etc)
+  --help, -h                  Exibe esta mensagem
+
+Exemplos:
+  wifipirata list --php-versions
+  wifipirata menu
+  wifipirata install php 8.2
+  wifipirata remove php 8.2
+EOF
+}
+
+case "$1" in
+  list)
+    case "$2" in
+      --php-versions)
+        dpkg -l | awk '/^ii/ && $2 ~ /^php[0-9]+\.[0-9]+(-|$)/ {print $2}' | grep -oE '[0-9]+\.[0-9]+' | sort -u
+        ;;
+      *)
+        echo "Opção desconhecida para list. Use --help."
+        ;;
+    esac
+    ;;
+  menu)
+    bash "$PROJECT_ROOT/bin/setup_menu.sh"
+    ;;
+  install)
+    APP="$2"
+    VERSION="$3"
+    if [ -z "$APP" ]; then
+      echo "Informe a aplicação para instalar."
+      exit 1
+    fi
+    bash "$MODULES/$APP.sh" "${VERSION:-default}" install
+    ;;
+  remove)
+    APP="$2"
+    VERSION="$3"
+    if [ -z "$APP" ]; then
+      echo "Informe a aplicação para remover."
+      exit 1
+    fi
+    bash "$MODULES/$APP.sh" "${VERSION:-default}" remove
+    ;;
+  --help|-h|*)
+    show_help
+    ;;
+esac

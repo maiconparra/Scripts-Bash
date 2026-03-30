@@ -1,0 +1,17 @@
+{
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.rulers": [80],
+  "editor.defaultFormatter": "foxundermoon.shell-format",
+  "shellcheck.enable": true,
+  "shellcheck.executablePath": "shellcheck",
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/*.deb": true,
+    "**/logs/": true,
+    "**/wifipirata_*/": true
+  }
+}

@@ -1,0 +1,9 @@
+Package: wifipirata
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: Seu Nome <seu@email.com>
+Depends: bash, curl, whiptail, git
+Description: Gerenciador modular de ambientes de desenvolvimento via Bash.
+ Ferramenta interativa para instalar/remover PHP, Docker, bancos de dados e mais.

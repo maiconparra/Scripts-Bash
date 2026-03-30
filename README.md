@@ -1,3 +1,20 @@
+## 🚀 Instalação Rápida via Terminal
+
+Execute o comando abaixo no seu terminal Linux (Ubuntu):
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/maiconparra/Scripts-Bash/main/install.sh)
+```
+
+Ou, se preferir usar git:
+
+```bash
+git clone https://github.com/maiconparra/Scripts-Bash.git
+cd Scripts-Bash
+bash install.sh
+```
+
+O menu interativo será iniciado, permitindo instalar/remover PHP, Docker, Node.js, bancos de dados e muito mais!
 git 
 <p align="center">
 	<img src="https://media.giphy.com/media/LMt9638dO8dftAjtco/giphy.gif" width="320" alt="Terminal Animation">
