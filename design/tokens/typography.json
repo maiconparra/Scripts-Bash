@@ -1,0 +1,37 @@
+{
+  "fontFamily": {
+    "sans":  { "value": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", "type": "fontFamilies", "description": "Interface geral" },
+    "mono":  { "value": "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace", "type": "fontFamilies", "description": "Código, terminais, logs" }
+  },
+  "fontSize": {
+    "xs":    { "value": "12px", "type": "fontSizes", "description": "Labels, badges, metadata" },
+    "sm":    { "value": "14px", "type": "fontSizes", "description": "Texto secundário, sidebar items" },
+    "base":  { "value": "16px", "type": "fontSizes", "description": "Corpo de texto principal" },
+    "lg":    { "value": "18px", "type": "fontSizes", "description": "Subtítulos, nomes de seção" },
+    "xl":    { "value": "20px", "type": "fontSizes", "description": "Títulos de cards" },
+    "2xl":   { "value": "24px", "type": "fontSizes", "description": "Títulos de páginas" },
+    "3xl":   { "value": "30px", "type": "fontSizes", "description": "Métricas grandes no Dashboard" },
+    "4xl":   { "value": "36px", "type": "fontSizes", "description": "Números de destaque (KPIs)" }
+  },
+  "fontWeight": {
+    "regular": { "value": "400", "type": "fontWeights" },
+    "medium":  { "value": "500", "type": "fontWeights" },
+    "semibold":{ "value": "600", "type": "fontWeights" },
+    "bold":    { "value": "700", "type": "fontWeights" }
+  },
+  "lineHeight": {
+    "tight":  { "value": "1.25", "type": "lineHeights" },
+    "normal": { "value": "1.5", "type": "lineHeights" },
+    "relaxed":{ "value": "1.75", "type": "lineHeights" }
+  },
+  "heading": {
+    "h1": { "value": { "fontFamily": "{fontFamily.sans}", "fontSize": "{fontSize.2xl}", "fontWeight": "{fontWeight.bold}", "lineHeight": "{lineHeight.tight}" }, "type": "typography", "description": "Título de página" },
+    "h2": { "value": { "fontFamily": "{fontFamily.sans}", "fontSize": "{fontSize.xl}",  "fontWeight": "{fontWeight.semibold}", "lineHeight": "{lineHeight.tight}" }, "type": "typography", "description": "Título de card/seção" },
+    "h3": { "value": { "fontFamily": "{fontFamily.sans}", "fontSize": "{fontSize.lg}",  "fontWeight": "{fontWeight.semibold}", "lineHeight": "{lineHeight.tight}" }, "type": "typography", "description": "Subtítulo" }
+  },
+  "body": {
+    "default": { "value": { "fontFamily": "{fontFamily.sans}", "fontSize": "{fontSize.base}", "fontWeight": "{fontWeight.regular}", "lineHeight": "{lineHeight.normal}" }, "type": "typography" },
+    "small":   { "value": { "fontFamily": "{fontFamily.sans}", "fontSize": "{fontSize.sm}",   "fontWeight": "{fontWeight.regular}", "lineHeight": "{lineHeight.normal}" }, "type": "typography" },
+    "mono":    { "value": { "fontFamily": "{fontFamily.mono}", "fontSize": "{fontSize.sm}",   "fontWeight": "{fontWeight.regular}", "lineHeight": "{lineHeight.normal}" }, "type": "typography", "description": "Código, logs, terminal" }
+  }
+}

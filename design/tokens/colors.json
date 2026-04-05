@@ -1,0 +1,69 @@
+{
+  "color": {
+    "brand": {
+      "primary": {
+        "50":  { "value": "#eef2ff", "type": "color" },
+        "100": { "value": "#e0e7ff", "type": "color" },
+        "200": { "value": "#c7d2fe", "type": "color" },
+        "300": { "value": "#a5b4fc", "type": "color" },
+        "400": { "value": "#818cf8", "type": "color" },
+        "500": { "value": "#6366f1", "type": "color", "description": "Primary — botões, links, ativo" },
+        "600": { "value": "#4f46e5", "type": "color", "description": "Primary hover" },
+        "700": { "value": "#4338ca", "type": "color" },
+        "800": { "value": "#3730a3", "type": "color" },
+        "900": { "value": "#312e81", "type": "color" }
+      },
+      "accent": {
+        "50":  { "value": "#ecfdf5", "type": "color" },
+        "100": { "value": "#d1fae5", "type": "color" },
+        "300": { "value": "#6ee7b7", "type": "color" },
+        "500": { "value": "#10b981", "type": "color", "description": "Accent — sucesso, status online" },
+        "700": { "value": "#047857", "type": "color" }
+      }
+    },
+    "semantic": {
+      "success": { "value": "#10b981", "type": "color", "description": "Online, build passed, healthy" },
+      "warning": { "value": "#f59e0b", "type": "color", "description": "Atenção, degradado" },
+      "error":   { "value": "#ef4444", "type": "color", "description": "Offline, falha, unhealthy" },
+      "info":    { "value": "#3b82f6", "type": "color", "description": "Informativo, running" }
+    },
+    "neutral": {
+      "0":   { "value": "#ffffff", "type": "color" },
+      "50":  { "value": "#f8fafc", "type": "color", "description": "Background principal (light)" },
+      "100": { "value": "#f1f5f9", "type": "color", "description": "Background cards (light)" },
+      "200": { "value": "#e2e8f0", "type": "color", "description": "Bordas (light)" },
+      "300": { "value": "#cbd5e1", "type": "color" },
+      "400": { "value": "#94a3b8", "type": "color", "description": "Texto secundário" },
+      "500": { "value": "#64748b", "type": "color" },
+      "600": { "value": "#475569", "type": "color" },
+      "700": { "value": "#334155", "type": "color", "description": "Texto principal (light)" },
+      "800": { "value": "#1e293b", "type": "color", "description": "Sidebar background (dark)" },
+      "900": { "value": "#0f172a", "type": "color", "description": "Background principal (dark)" },
+      "950": { "value": "#020617", "type": "color", "description": "Background profundo (dark)" }
+    },
+    "dark": {
+      "background":     { "value": "#0f172a", "type": "color", "description": "Fundo principal dark mode" },
+      "surface":        { "value": "#1e293b", "type": "color", "description": "Cards, painéis" },
+      "surfaceElevated":{ "value": "#334155", "type": "color", "description": "Elementos elevados (dropdown, modal)" },
+      "border":         { "value": "#334155", "type": "color" },
+      "textPrimary":    { "value": "#f1f5f9", "type": "color" },
+      "textSecondary":  { "value": "#94a3b8", "type": "color" },
+      "sidebar":        { "value": "#020617", "type": "color", "description": "Sidebar — mais escuro que o fundo" }
+    },
+    "pipeline": {
+      "build":    { "value": "#6366f1", "type": "color", "description": "Nó de build" },
+      "test":     { "value": "#8b5cf6", "type": "color", "description": "Nó de teste" },
+      "deploy":   { "value": "#10b981", "type": "color", "description": "Nó de deploy" },
+      "notify":   { "value": "#f59e0b", "type": "color", "description": "Nó de notificação" },
+      "edge":     { "value": "#475569", "type": "color", "description": "Conexão entre nós" },
+      "edgeActive": { "value": "#6366f1", "type": "color", "description": "Conexão ativa/em execução" }
+    },
+    "status": {
+      "running":  { "value": "#10b981", "type": "color" },
+      "stopped":  { "value": "#64748b", "type": "color" },
+      "error":    { "value": "#ef4444", "type": "color" },
+      "building": { "value": "#3b82f6", "type": "color" },
+      "warning":  { "value": "#f59e0b", "type": "color" }
+    }
+  }
+}

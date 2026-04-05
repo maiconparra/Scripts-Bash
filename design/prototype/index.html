@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WifiPirata OS — Protótipo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="splash.js"></script>
+</head>
+<body>
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#6366f1"/>
+          <text x="8" y="22" fill="white" font-size="16" font-weight="700" font-family="Inter">W</text>
+        </svg>
+        <span class="sidebar-title">WifiPirata</span>
+      </div>
+      <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">
+        <span class="sidebar-label">MAIN</span>
+        <a href="#dashboard" class="sidebar-item active" onclick="showPage('dashboard', this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="#environments" class="sidebar-item" onclick="showPage('environments', this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          <span>Environments</span>
+        </a>
+        <a href="#pipeline" class="sidebar-item" onclick="showPage('pipeline', this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M6 9v3a3 3 0 003 3h6"/><path d="M15 12l3 3-3 3"/></svg>
+          <span>Pipeline</span>
+        </a>
+        <a href="#projects" class="sidebar-item" onclick="showPage('projects', this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span>Projects</span>
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <span class="sidebar-label">MONITOR</span>
+        <a href="#monitoring" class="sidebar-item" onclick="showPage('monitoring', this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+          <span>Metrics</span>
+        </a>
+        <a href="#logs" class="sidebar-item" onclick="showPage('logs', this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Logs</span>
+        </a>
+        <a href="#services" class="sidebar-item" onclick="showPage('services', this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>
+          <span>Services</span>
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <span class="sidebar-label">SYSTEM</span>
+        <a href="#network" class="sidebar-item disabled">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          <span>Network</span>
+          <span class="badge-future">Futuro</span>
+        </a>
+        <a href="#storage" class="sidebar-item disabled">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          <span>Storage</span>
+          <span class="badge-future">Futuro</span>
+        </a>
+        <a href="#settings" class="sidebar-item" onclick="showPage('settings', this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-left">
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="header-right">
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Buscar... (Ctrl+K)">
+        </div>
+        <button class="header-icon" title="Notificações">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="notification-dot"></span>
+        </button>
+        <div class="user-avatar" title="Admin" onclick="document.getElementById('logoutMenu').classList.toggle('show')" style="cursor:pointer; position:relative;">
+          A
+          <div class="logout-menu" id="logoutMenu">
+            <span class="logout-user">admin</span>
+            <a href="login.html" class="logout-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sair
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== PAGE: DASHBOARD ===== -->
+    <section class="page active" id="page-dashboard">
+      <!-- Status Cards -->
+      <div class="card-grid-4">
+        <div class="status-card">
+          <div class="status-card-header">
+            <span class="status-card-label">CPU</span>
+            <span class="status-dot green"></span>
+          </div>
+          <div class="status-card-value">42%</div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 42%; background: #6366f1;"></div></div>
+          <span class="status-card-detail">8 cores · Intel i7-12700K</span>
+        </div>
+
+        <div class="status-card">
+          <div class="status-card-header">
+            <span class="status-card-label">RAM</span>
+            <span class="status-dot green"></span>
+          </div>
+          <div class="status-card-value">6.2 <small>GB</small></div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 39%; background: #8b5cf6;"></div></div>
+          <span class="status-card-detail">6.2 / 16 GB</span>
+        </div>
+
+        <div class="status-card">
+          <div class="status-card-header">
+            <span class="status-card-label">Disco</span>
+            <span class="status-dot yellow"></span>
+          </div>
+          <div class="status-card-value">120 <small>GB</small></div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 47%; background: #f59e0b;"></div></div>
+          <span class="status-card-detail">120 / 256 GB (47%)</span>
+        </div>
+
+        <div class="status-card">
+          <div class="status-card-header">
+            <span class="status-card-label">Rede</span>
+            <span class="status-dot green"></span>
+          </div>
+          <div class="status-card-value">2.1 <small>MB/s</small></div>
+          <div class="status-card-network">
+            <span>↓ 2.1 MB/s</span>
+            <span>↑ 0.5 MB/s</span>
+          </div>
+          <span class="status-card-detail">eth0 · 1Gbps</span>
+        </div>
+      </div>
+
+      <!-- Active Environments -->
+      <div class="section-header">
+        <h2>Ambientes Ativos</h2>
+        <button class="btn btn-primary btn-sm">+ Novo Ambiente</button>
+      </div>
+      <div class="card-grid-3">
+        <div class="env-card">
+          <div class="env-card-header">
+            <span class="env-card-name"><span class="status-dot green inline"></span> meu-projeto</span>
+            <span class="env-badge dev">DEV</span>
+          </div>
+          <div class="env-card-stack">
+            <span class="stack-tag">PHP 8.2</span>
+            <span class="stack-tag">MySQL 8.0</span>
+            <span class="stack-tag">Nginx</span>
+            <span class="stack-tag">Redis</span>
+          </div>
+          <div class="env-card-footer">
+            <span class="env-card-meta">4 containers · 340MB</span>
+            <div class="env-card-actions">
+              <button class="btn btn-sm btn-secondary">Abrir</button>
+              <button class="btn btn-sm btn-ghost">⋮</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="env-card">
+          <div class="env-card-header">
+            <span class="env-card-name"><span class="status-dot yellow inline"></span> api-teste</span>
+            <span class="env-badge teste">TESTE</span>
+          </div>
+          <div class="env-card-stack">
+            <span class="stack-tag">PHP 8.3</span>
+            <span class="stack-tag">PostgreSQL 16</span>
+            <span class="stack-tag">Apache</span>
+          </div>
+          <div class="env-card-footer">
+            <span class="env-card-meta">3 containers · 520MB</span>
+            <div class="env-card-actions">
+              <button class="btn btn-sm btn-secondary">Abrir</button>
+              <button class="btn btn-sm btn-ghost">⋮</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="env-card env-card-new">
+          <div class="env-card-new-content">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <span>Novo Ambiente</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Table -->
+      <div class="section-header" style="margin-top: 32px;">
+        <h2>Atividade Recente</h2>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Ação</th>
+              <th>Ambiente</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">12:30</td>
+              <td>Deploy v2.1.0</td>
+              <td>api-teste</td>
+              <td><span class="status-badge success">Success</span></td>
+            </tr>
+            <tr>
+              <td class="mono">12:15</td>
+              <td>Build pipeline #42</td>
+              <td>meu-projeto</td>
+              <td><span class="status-badge success">Success</span></td>
+            </tr>
+            <tr>
+              <td class="mono">11:45</td>
+              <td>Install PHP 8.3</td>
+              <td>api-teste</td>
+              <td><span class="status-badge success">Success</span></td>
+            </tr>
+            <tr>
+              <td class="mono">11:30</td>
+              <td>Create environment</td>
+              <td>api-teste</td>
+              <td><span class="status-badge info">Created</span></td>
+            </tr>
+            <tr>
+              <td class="mono">10:15</td>
+              <td>Pipeline failed</td>
+              <td>microservices</td>
+              <td><span class="status-badge error">Failed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: ENVIRONMENTS ===== -->
+    <section class="page" id="page-environments">
+      <div class="env-layout">
+        <!-- Tree View -->
+        <div class="env-tree">
+          <div class="env-tree-search">
+            <input type="text" placeholder="Buscar ambiente...">
+          </div>
+          <div class="tree">
+            <div class="tree-node open">
+              <div class="tree-parent" onclick="this.parentElement.classList.toggle('open')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                meu-projeto
+              </div>
+              <div class="tree-children">
+                <div class="tree-leaf active"><span class="status-dot green inline small"></span> dev</div>
+                <div class="tree-leaf"><span class="status-dot yellow inline small"></span> teste</div>
+                <div class="tree-leaf"><span class="status-dot red inline small"></span> prod</div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-parent" onclick="this.parentElement.classList.toggle('open')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                api-backend
+              </div>
+              <div class="tree-children">
+                <div class="tree-leaf"><span class="status-dot green inline small"></span> dev</div>
+                <div class="tree-leaf"><span class="status-dot green inline small"></span> teste</div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-parent" onclick="this.parentElement.classList.toggle('open')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                microservices
+              </div>
+              <div class="tree-children">
+                <div class="tree-leaf"><span class="status-dot green inline small"></span> dev</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail Panel -->
+        <div class="env-detail">
+          <div class="env-detail-header">
+            <div>
+              <h2>meu-projeto <span class="env-badge dev">DEV</span></h2>
+              <p class="text-secondary">Criado em 03/04/2026 · Uptime: 3d 12h</p>
+            </div>
+            <div class="env-detail-actions">
+              <button class="btn btn-secondary btn-sm">Parar</button>
+              <button class="btn btn-secondary btn-sm">Clonar</button>
+              <button class="btn btn-secondary btn-sm">Editar</button>
+              <button class="btn btn-danger btn-sm">Destruir</button>
+            </div>
+          </div>
+
+          <div class="card-grid-2" style="margin-top: 24px;">
+            <div class="detail-card">
+              <h3>Serviços</h3>
+              <table class="table-compact">
+                <tbody>
+                  <tr><td>PHP</td><td class="mono">8.2-fpm</td><td><span class="status-badge success">Running</span></td></tr>
+                  <tr><td>MySQL</td><td class="mono">8.0</td><td><span class="status-badge success">Running</span></td></tr>
+                  <tr><td>Nginx</td><td class="mono">1.25</td><td><span class="status-badge success">Running</span></td></tr>
+                  <tr><td>Redis</td><td class="mono">7.2</td><td><span class="status-badge success">Running</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="detail-card">
+              <h3>Recursos</h3>
+              <div class="resource-row">
+                <span>CPU</span>
+                <div class="progress-bar flex-1"><div class="progress-fill" style="width: 12%; background: #6366f1;"></div></div>
+                <span class="mono">12%</span>
+              </div>
+              <div class="resource-row">
+                <span>RAM</span>
+                <div class="progress-bar flex-1"><div class="progress-fill" style="width: 21%; background: #8b5cf6;"></div></div>
+                <span class="mono">340MB</span>
+              </div>
+              <div class="resource-row">
+                <span>Disco</span>
+                <div class="progress-bar flex-1"><div class="progress-fill" style="width: 5%; background: #10b981;"></div></div>
+                <span class="mono">2.1GB</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card" style="margin-top: 16px;">
+            <h3>Configuração YAML</h3>
+            <pre class="code-block"><code>name: meu-projeto
+type: dev
+services:
+  php:
+    version: "8.2"
+    extensions: [pdo, mysql, redis, mbstring]
+  mysql:
+    version: "8.0"
+    database: app_dev
+    port: 3306
+  nginx:
+    version: "1.25"
+    port: 8080
+  redis:
+    version: "7.2"
+    port: 6379</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: PIPELINE ===== -->
+    <section class="page" id="page-pipeline">
+      <!-- Toolbar -->
+      <div class="pipeline-toolbar">
+        <div class="pipeline-toolbar-left">
+          <button class="btn btn-sm btn-secondary"><span class="node-icon build">🔨</span> Build</button>
+          <button class="btn btn-sm btn-secondary"><span class="node-icon test">🧪</span> Test</button>
+          <button class="btn btn-sm btn-secondary"><span class="node-icon deploy">🚀</span> Deploy</button>
+          <button class="btn btn-sm btn-secondary"><span class="node-icon notify">🔔</span> Notify</button>
+        </div>
+        <div class="pipeline-toolbar-right">
+          <button class="btn btn-sm btn-secondary">Exportar YAML</button>
+          <button class="btn btn-sm btn-primary">▶ Executar</button>
+        </div>
+      </div>
+
+      <div class="pipeline-layout">
+        <!-- Canvas -->
+        <div class="pipeline-canvas">
+          <div class="pipeline-flow">
+            <!-- Node: Build -->
+            <div class="pipeline-node build" style="left: 50px; top: 80px;">
+              <div class="pipeline-node-icon">🔨</div>
+              <div class="pipeline-node-content">
+                <div class="pipeline-node-title">Build</div>
+                <div class="pipeline-node-subtitle">npm run build</div>
+              </div>
+              <div class="pipeline-node-status success">✓ 45s</div>
+            </div>
+
+            <!-- Edge -->
+            <svg class="pipeline-edge" style="left: 250px; top: 98px;" width="60" height="2"><line x1="0" y1="1" x2="60" y2="1" stroke="#6366f1" stroke-width="2"/></svg>
+
+            <!-- Node: Unit Test -->
+            <div class="pipeline-node test" style="left: 310px; top: 40px;">
+              <div class="pipeline-node-icon">🧪</div>
+              <div class="pipeline-node-content">
+                <div class="pipeline-node-title">Unit Tests</div>
+                <div class="pipeline-node-subtitle">vitest run</div>
+              </div>
+              <div class="pipeline-node-status running">⏳</div>
+            </div>
+
+            <!-- Node: E2E Test -->
+            <div class="pipeline-node test" style="left: 310px; top: 130px;">
+              <div class="pipeline-node-icon">🧪</div>
+              <div class="pipeline-node-content">
+                <div class="pipeline-node-title">E2E Tests</div>
+                <div class="pipeline-node-subtitle">playwright</div>
+              </div>
+              <div class="pipeline-node-status pending">⬜</div>
+            </div>
+
+            <!-- Node: Deploy -->
+            <div class="pipeline-node deploy" style="left: 570px; top: 80px;">
+              <div class="pipeline-node-icon">🚀</div>
+              <div class="pipeline-node-content">
+                <div class="pipeline-node-title">Deploy</div>
+                <div class="pipeline-node-subtitle">staging server</div>
+              </div>
+              <div class="pipeline-node-status pending">⬜</div>
+            </div>
+
+            <!-- Node: Notify -->
+            <div class="pipeline-node notify" style="left: 570px; top: 180px;">
+              <div class="pipeline-node-icon">🔔</div>
+              <div class="pipeline-node-content">
+                <div class="pipeline-node-title">Notify</div>
+                <div class="pipeline-node-subtitle">Slack #deploy</div>
+              </div>
+              <div class="pipeline-node-status pending">⬜</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Config Panel -->
+        <div class="pipeline-config">
+          <h3>Configuração: Build</h3>
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" value="npm run build">
+          </div>
+          <div class="form-group">
+            <label>Runner</label>
+            <select><option>ubuntu-latest</option><option>ubuntu-22.04</option></select>
+          </div>
+          <div class="form-group">
+            <label>Timeout</label>
+            <select><option>10 min</option><option selected>30 min</option><option>60 min</option></select>
+          </div>
+          <div class="form-group">
+            <label>Comandos</label>
+            <textarea rows="4" class="mono">npm ci
+npm run build
+npm run lint</textarea>
+          </div>
+          <div class="form-group">
+            <label>Variáveis de ambiente</label>
+            <div class="env-var-row">
+              <input type="text" value="NODE_ENV" class="mono" style="width: 40%;">
+              <input type="text" value="production" class="mono" style="width: 55%;">
+            </div>
+            <button class="btn btn-sm btn-ghost" style="margin-top: 8px;">+ Adicionar variável</button>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary btn-sm">Aplicar</button>
+            <button class="btn btn-danger btn-sm">Remover nó</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: MONITORING (Logs) ===== -->
+    <section class="page" id="page-logs">
+      <div class="monitoring-tabs">
+        <button class="tab active">Metrics</button>
+        <button class="tab">Logs</button>
+        <button class="tab">Containers</button>
+        <button class="tab">Services</button>
+      </div>
+
+      <!-- Log Stream -->
+      <div class="log-filters">
+        <select><option>Todos os ambientes</option><option>meu-projeto</option><option>api-teste</option></select>
+        <select><option>Todos os níveis</option><option>INFO</option><option>WARN</option><option>ERROR</option></select>
+        <div class="search-box" style="flex:1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Filtrar logs...">
+        </div>
+        <label class="toggle-label"><input type="checkbox" checked> Auto-scroll</label>
+      </div>
+
+      <div class="log-stream">
+        <div class="log-line"><span class="log-time">12:30:01</span> <span class="log-level info">INFO</span>  <span class="log-source">[php-fpm]</span> Worker started pid=1234</div>
+        <div class="log-line"><span class="log-time">12:30:02</span> <span class="log-level info">INFO</span>  <span class="log-source">[nginx]</span>   GET /api/health 200 2ms</div>
+        <div class="log-line"><span class="log-time">12:30:03</span> <span class="log-level info">INFO</span>  <span class="log-source">[nginx]</span>   GET /api/users 200 45ms</div>
+        <div class="log-line"><span class="log-time">12:30:05</span> <span class="log-level warn">WARN</span>  <span class="log-source">[mysql]</span>   Slow query detected (>500ms): SELECT * FROM orders JOIN...</div>
+        <div class="log-line"><span class="log-time">12:30:06</span> <span class="log-level error">ERROR</span> <span class="log-source">[php-fpm]</span> Uncaught Exception: SQLSTATE[HY000] Connection refused</div>
+        <div class="log-line"><span class="log-time">12:30:06</span> <span class="log-level error">ERROR</span> <span class="log-source">[php-fpm]</span>   at /var/www/app/Database/Connection.php:42</div>
+        <div class="log-line"><span class="log-time">12:30:07</span> <span class="log-level info">INFO</span>  <span class="log-source">[redis]</span>   Connected clients: 3</div>
+        <div class="log-line"><span class="log-time">12:30:08</span> <span class="log-level info">INFO</span>  <span class="log-source">[nginx]</span>   POST /api/users 201 120ms</div>
+        <div class="log-line"><span class="log-time">12:30:09</span> <span class="log-level info">INFO</span>  <span class="log-source">[php-fpm]</span> Request processed successfully</div>
+        <div class="log-line"><span class="log-time">12:30:10</span> <span class="log-level warn">WARN</span>  <span class="log-source">[php-fpm]</span> Memory usage high: 245MB / 256MB limit</div>
+        <div class="log-line"><span class="log-time">12:30:11</span> <span class="log-level info">INFO</span>  <span class="log-source">[nginx]</span>   GET /api/products 200 15ms</div>
+        <div class="log-line cursor"><span class="log-cursor">▌</span></div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: PROJECTS ===== -->
+    <section class="page" id="page-projects">
+      <div class="section-header">
+        <h2>Templates Disponíveis</h2>
+      </div>
+      <div class="card-grid-3">
+        <div class="template-card">
+          <div class="template-icon">🐘</div>
+          <h3>Laravel</h3>
+          <p>PHP 8.2+ · MySQL/PostgreSQL · Redis · Nginx</p>
+          <div class="template-tags">
+            <span class="stack-tag">CI/CD ✅</span>
+            <span class="stack-tag">Docker ✅</span>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top: 16px; width: 100%;">Usar template</button>
+        </div>
+        <div class="template-card">
+          <div class="template-icon">⚛️</div>
+          <h3>React (Vite + TS)</h3>
+          <p>TypeScript · Tailwind · Vitest · ESLint</p>
+          <div class="template-tags">
+            <span class="stack-tag">CI/CD ✅</span>
+            <span class="stack-tag">Docker ✅</span>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top: 16px; width: 100%;">Usar template</button>
+        </div>
+        <div class="template-card">
+          <div class="template-icon">🟢</div>
+          <h3>Node.js (Express)</h3>
+          <p>MongoDB · Redis · Docker · PM2</p>
+          <div class="template-tags">
+            <span class="stack-tag">CI/CD ✅</span>
+            <span class="stack-tag">Docker ✅</span>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top: 16px; width: 100%;">Usar template</button>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top: 32px;">
+        <h2>Projetos Recentes</h2>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>Nome</th><th>Stack</th><th>Criado</th><th>Ambiente</th><th>Ações</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>meu-projeto</strong></td>
+              <td><span class="stack-tag">Laravel</span></td>
+              <td>2 dias atrás</td>
+              <td><span class="status-badge success">dev 🟢</span></td>
+              <td><button class="btn btn-sm btn-ghost">⋮</button></td>
+            </tr>
+            <tr>
+              <td><strong>api-backend</strong></td>
+              <td><span class="stack-tag">Node.js</span></td>
+              <td>1 semana</td>
+              <td><span class="status-badge success">dev 🟢</span></td>
+              <td><button class="btn btn-sm btn-ghost">⋮</button></td>
+            </tr>
+            <tr>
+              <td><strong>frontend-app</strong></td>
+              <td><span class="stack-tag">React</span></td>
+              <td>3 semanas</td>
+              <td><span class="status-badge warning">teste 🟡</span></td>
+              <td><button class="btn btn-sm btn-ghost">⋮</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Placeholder pages -->
+    <section class="page" id="page-monitoring"><div class="placeholder">Metrics — ver wireframes.md para layout</div></section>
+    <section class="page" id="page-services"><div class="placeholder">Services — ver wireframes.md para layout</div></section>
+    <section class="page" id="page-settings"><div class="placeholder">Settings — ver wireframes.md para layout</div></section>
+  </main>
+
+  <script>
+    function showPage(pageName, el) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+      const page = document.getElementById('page-' + pageName);
+      if (page) page.classList.add('active');
+      if (el) el.classList.add('active');
+      const titles = {
+        dashboard: 'Dashboard',
+        environments: 'Environments',
+        pipeline: 'Pipeline Editor',
+        projects: 'Projects',
+        monitoring: 'Metrics',
+        logs: 'Logs',
+        services: 'Services',
+        settings: 'Settings'
+      };
+      document.getElementById('pageTitle').textContent = titles[pageName] || pageName;
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    }
+  </script>
+</body>
+</html>

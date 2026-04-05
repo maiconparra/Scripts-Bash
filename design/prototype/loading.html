@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WifiPirata OS — Carregando...</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #05050a;
+      z-index: 9999;
+    }
+
+    /* ===== SPLASH (replica do web-marketing/Splash.tsx) ===== */
+    .splash-container {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes splash-pulse {
+      0%   { transform: scale(0.96); filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6)); }
+      50%  { transform: scale(1.02); filter: drop-shadow(0 18px 48px rgba(0,240,255,0.18)); }
+      100% { transform: scale(0.96); filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6)); }
+    }
+
+    @keyframes wave {
+      0%   { transform: scale(0.6); opacity: 0.6; }
+      50%  { transform: scale(1.6); opacity: 0.12; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+
+    .splash-logo {
+      width: 220px;
+      height: auto;
+      position: relative;
+      z-index: 2;
+      animation: splash-pulse 1400ms ease-in-out infinite;
+    }
+
+    .splash-wave {
+      position: absolute;
+      border: 2px solid rgba(0, 240, 255, 0.18);
+      border-radius: 999px;
+      width: 220px;
+      height: 220px;
+      animation: wave 2000ms ease-out infinite;
+      pointer-events: none;
+    }
+
+    .splash-wave.w2 {
+      animation-delay: 300ms;
+      border-color: rgba(139, 92, 246, 0.12);
+    }
+
+    .splash-wave.w3 {
+      animation-delay: 700ms;
+      border-color: rgba(0, 240, 255, 0.08);
+    }
+
+    /* ===== FADE OUT ===== */
+    body.fade-out {
+      transition: opacity 300ms ease;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body aria-hidden="true">
+  <div class="splash-container">
+    <div class="splash-wave w1"></div>
+    <div class="splash-wave w2"></div>
+    <div class="splash-wave w3"></div>
+    <img src="assets/logo_branca.png" alt="WiFi Pirata" class="splash-logo">
+  </div>
+
+  <script>
+    // Splash intermediário pós-login: mostra animação e redireciona
+    // O dashboard (index.html) tem seu próprio splash via splash.js
+    setTimeout(() => {
+      document.body.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 300);
+    }, 2500);
+  </script>
+</body>
+</html>
+
